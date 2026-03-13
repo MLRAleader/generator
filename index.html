@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Générateur</title>
+
+    <link rel="manifest" href="manifest.json">
+
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: #f2f2f2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .app {
+        background: white;
+        padding: 20px;
+        width: 90%;
+        max-width: 400px;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 8px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        background: #007bff;
+        color: white;
+      }
+
+      button:active {
+        transform: scale(0.97);
+      }
+
+      .secondary {
+        background: #28a745;
+      }
+
+      .danger {
+        background: #dc3545;
+      }
+
+      #liste {
+        margin-top: 15px;
+        font-size: 14px;
+        color: #555;
+        word-wrap: break-word;
+      }
+
+      #resultat {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div class="app">
+
+      <h1>Generator Suit</h1>
+
+      <input type="number" id="nombre" placeholder="Entrer un nombre">
+
+      <button onclick="ajouter()">Ajouter</button>
+
+      <div id="liste"></div>
+
+      <button class="secondary" onclick="generer()">Générer</button>
+
+      <button class="danger" onclick="effacer()">Effacer</button>
+
+      <div id="resultat"></div>
+
+    </div>
+
+    <script>
+      let nombres = []
+
+      function ajouter() {
+
+        let valeur = document
+          .getElementById("nombre")
+          .value
+
+        if (valeur !== "") {
+          nombres.push(Number(valeur))
+          document
+            .getElementById("nombre")
+            .value = ""
+          afficherListe()
+        }
+
+      }
+
+      function afficherListe() {
+        document
+          .getElementById("liste")
+          .innerText = "Liste : " + nombres.join(", ")
+      }
+
+      function generer() {
+
+        if (nombres.length < 5) {
+          alert("Ajoute au moins 5 nombres")
+          return
+        }
+
+        let copie = [...nombres]
+        let resultat = []
+
+        for (let i = 0; i < 5; i++) {
+
+          let index = Math.floor(Math.random() * copie.length)
+
+          resultat.push(copie[index])
+
+          copie.splice(index, 1)
+
+        }
+
+        document
+          .getElementById("resultat")
+          .innerText = resultat.join(" - ")
+
+      }
+
+      function effacer() {
+
+        nombres = []
+
+        document
+          .getElementById("liste")
+          .innerText = ""
+
+        document
+          .getElementById("resultat")
+          .innerText = ""
+
+      }
+
+      if ("serviceWorker" in navigator) {
+
+        navigator
+          .serviceWorker
+          .register("service-worker.js")
+
+      }
+    </script>
+
+  </body>
+
+</html>
