@@ -105,6 +105,9 @@
 
     <script>
       let nombres = []
+      document
+        .getElementById("nombre")
+        .type = "text";
 
       function ajouter() {
 
@@ -113,11 +116,25 @@
           .value
 
         if (valeur !== "") {
-          nombres.push(Number(valeur))
+
+          let liste = valeur.split(",")
+
+          liste.forEach(function (n) {
+
+            let nombre = Number(n.trim())
+
+            if (!isNaN(nombre)) {
+              nombres.push(nombre)
+            }
+
+          })
+
           document
             .getElementById("nombre")
             .value = ""
+
           afficherListe()
+
         }
 
       }
